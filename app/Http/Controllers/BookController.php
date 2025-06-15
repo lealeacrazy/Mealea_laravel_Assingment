@@ -73,7 +73,7 @@ class BookController extends Controller
                 $book['description'] = $request->description ?? $book['description'];
                 $book['authorId'] = $request->authorId ?? $book['authorId'];
                 $book['publicationYear'] = $request->publicationYear ?? $book['publicationYear'];
-                $book['genre'] = $request->description ?? $book['genre'];
+                $book['genre'] = $request->genre ?? $book['genre'];
 
                 return response()->json([
                     'message' => 'Book updated',
