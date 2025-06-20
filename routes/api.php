@@ -9,9 +9,9 @@ use PharIo\Manifest\Author;
 
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{id}', [BookController::class, 'show']);
-Route::post('/books', [BookController::class, 'create']);
+Route::post('/books', [BookController::class, 'store']);      
 Route::put('/books/{id}', [BookController::class, 'update']);
-Route::delete('/books/{id}', [BookController::class, 'delete']);
+Route::delete('/books/{id}', [BookController::class, 'destroy']); 
 
 
 Route::get('/authors', [AuthorController::class, 'index']);
