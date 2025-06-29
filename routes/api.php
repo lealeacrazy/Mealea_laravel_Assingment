@@ -7,25 +7,32 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\UserController;
 use PharIo\Manifest\Author;
 
-Route::get('/books', [BookController::class, 'index']);
-Route::get('/books/{id}', [BookController::class, 'show']);
-Route::post('/books', [BookController::class, 'store']);      
-Route::put('/books/{id}', [BookController::class, 'update']);
-Route::delete('/books/{id}', [BookController::class, 'destroy']); 
+
+Route::prefix('books')->group(function () {
+    Route::get('/', [BookController::class, 'index']);
+    Route::get('/{id}', [BookController::class, 'show']);
+    Route::post('/create', [BookController::class, 'create']);
+    Route::put('/update/{id}', [BookController::class, 'update']);
+    Route::delete('/delete/{id}', [BookController::class, 'delete']);
+    
+});
+
+Route::prefix('authors')->group(function () {
+    Route::get('/', [AuthorController::class, 'index']);
+    Route::get('/{id}', [AuthorController::class, 'show']);
+    Route::post('/create', [AuthorController::class, 'create']);
+    Route::put('/update/{id}', [AuthorController::class, 'update']);
+    Route::delete('delete/{id}', [AuthorController::class, 'delete']);
+});
 
 
-Route::get('/authors', [AuthorController::class, 'index']);
-Route::get('/authors/{id}', [AuthorController::class, 'show']);
-Route::post('/authors', [AuthorController::class, 'store']);
-Route::put('/authors/{id}', [AuthorController::class, 'update']);
-Route::delete('/authors/{id}', [AuthorController::class, 'delete']);
-
-
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::post('/users', [UserController::class, 'create']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::delete('/users/{id}', [UserController::class, 'delete']);
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::post('/create', [UserController::class, 'create']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
+    Route::delete('delete/{id}', [UserController::class, 'delete']);
+});
 
 
 

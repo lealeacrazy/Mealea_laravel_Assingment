@@ -2,69 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAuthorRequest;
-use App\Models\Author;
+use App\Http\Requests\StoreauthorRequest;
 use Illuminate\Http\Request;
+use App\Models\Author;
 
 class AuthorController extends Controller
 {
-    public function store(StoreAuthorRequest $request)
-    {
-        $author = Author::create($request->validated());
-
-        return response()->json([
-            'message' => 'Author created',
-            'data' => $author,
-        ], 201);
-    }
 
     public function index()
     {
-        $authors = Author::all();
+        $authors = Author::with('books')->get();
 
         return response()->json([
             'message' => 'Authors retrieved successfully',
             'data' => $authors,
-        ]);
+        ], 200);
     }
+
 
     public function show($id)
     {
-        $author = Author::find($id);
-        if (!$author) {
-            return response()->json(['message' => 'Author not found'], 404);
-        }
+         $author = Author::with('books')->find($id);
 
         return response()->json([
-            'message' => 'Author retrieved',
+            'message' => 'Author retrieved successfully',
             'data' => $author,
+        ], 200);
+    }
+    // Create a new author
+
+    public function create(StoreauthorRequest $request)
+    {
+        $author = Author::create($request->all());
+        return response()->json([
+            "message" => "Success",
+            "data" => $author
         ]);
     }
-
-    public function update(StoreAuthorRequest $request, $id)
+    // Update a author using StoreauthorRequest
+    public function update(StoreauthorRequest $request, $id)
     {
         $author = Author::find($id);
-        if (!$author) {
-            return response()->json(['message' => 'Author not found'], 404);
-        }
-
         $author->update($request->validated());
-
         return response()->json([
-            'message' => 'Author updated',
-            'data' => $author,
-        ]);
+            'success' => true,
+            'message' => 'author updated successfully',
+            'data' => $author
+        ], 200);
     }
 
-    public function delete($id)
+    // Delete a author
+    public function delete(StoreauthorRequest $request, $id)
     {
         $author = Author::find($id);
-        if (!$author) {
-            return response()->json(['message' => 'Author not found'], 404);
-        }
+        $author->delete($request->validated());
 
-        $author->delete();
-
-        return response()->json(['message' => 'Author deleted successfully']);
+        return response()->json([
+            'success' => true,
+            'message' => 'author delete successfully',
+            'data' => $author
+        ], 200);
     }
 }

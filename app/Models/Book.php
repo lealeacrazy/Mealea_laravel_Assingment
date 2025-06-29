@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     use HasFactory;
-    protected $table = 'books'; // Specify the table name if it differs from the default
+    protected $table = "books";
     protected $fillable = [
-        'title',
-        'description',
-        'authorId',
-        'publicationYear',
-        'genre',
-        'created_at',
-        'updated_at',
+        'title', 
+        'body',
+        'author_id'
     ];
+
+    public function author(){
+        return $this->belongsTo(Author::class);
+    }
 }

@@ -14,16 +14,8 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
-            $table->sttring('authorId'); 
-            $table->year('publicationYear');
-            $table->string('genre');
-            $table->int('created_at');
-            $table->int('updated_at');
-            
-            
-            
-
+            $table->string('body');
+            $table->foreignId('author_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -33,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('posts');
     }
 };
