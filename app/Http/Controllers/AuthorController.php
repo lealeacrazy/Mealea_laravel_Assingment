@@ -20,17 +20,20 @@ class AuthorController extends Controller
     }
 
 
-    public function show($id)
+   public function show($id)
     {
-         $author = Author::with('books')->find($id);
+        // Load the author and their books
+        $author = Author::with('books')->findOrFail($id);
 
         return response()->json([
-            'message' => 'Author retrieved successfully',
-            'data' => $author,
-        ], 200);
+            'id' => $author->id,
+            'name' => $author->name,
+            'books' => $author->books->pluck('title'), 
+        ]);
     }
-    // Create a new author
 
+
+    // Create a new author
     public function create(StoreauthorRequest $request)
     {
         $author = Author::create($request->all());
@@ -39,7 +42,8 @@ class AuthorController extends Controller
             "data" => $author
         ]);
     }
-    // Update a author using StoreauthorRequest
+
+    // Update a author
     public function update(StoreauthorRequest $request, $id)
     {
         $author = Author::find($id);

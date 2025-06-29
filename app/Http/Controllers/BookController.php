@@ -14,7 +14,7 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = Book::with('authors')->get();
+        $books = Book::with('author')->get();
 
         return response()->json([
             'message' => 'Books retrieved successfully',
@@ -22,18 +22,21 @@ class BookController extends Controller
         ], 200);
     }
 
-    public function show($id)
-    {
+     
 
-        $book = Book::with('authors')->find($id);
-        return response()->json([
-            'message' => 'books retrieved successfully',
-            'data' => $book,
-        ], 200);
-    }
+   public function show($id)
+{
+    $book = Book::with('author')->findOrFail($id);
+
+    return response()->json([
+        'id' => $book->id,
+        'title' => $book->title,
+        'author' => $book->author->name,
+    ]);
+}
+
 
     // Create a new book
-
     public function create(StoreBookRequest $request)
     {
         $books = Book::create($request->all());
@@ -45,7 +48,7 @@ class BookController extends Controller
 
 
 
-    // Update a book using StoreBookRequest
+    // Update a book 
     public function update(StoreBookRequest $request, $id)
     {
         $book = Book::find($id);

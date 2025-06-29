@@ -14,12 +14,9 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-        
-            Author::all()->each(function ($author) {
-            Book::factory()->count(3)->create([
-                'author_id' => $author->id,
-            ]);
-        });
+        \App\Models\Book::factory(10)->create();
+
+           
 }
 
 }
